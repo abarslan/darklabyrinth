@@ -5,8 +5,8 @@
 
 using namespace std;
 
-const int rows = 7;
-const int cols = 7;
+const int rows = 6;
+const int cols = 6;
 
 bool isExit(int col, int row, int exit[1][2]) {
     if (col == exit[0][0] && row == exit[0][1]) {
