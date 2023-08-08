@@ -179,8 +179,8 @@ int main() {
     }
 
     if (playerhp <= 0) {
-        displayFinalMap(currentCol, currentRow, exit, hpPositions, wallPositions, numHp, numWalls);
         cout << "You lose the game. Press 0 to start again." << endl;
+        displayFinalMap(currentCol, currentRow, exit, hpPositions, wallPositions, numHp, numWalls);
         cin >> a;
         if (a == 0)
             main();
