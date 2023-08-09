@@ -8,6 +8,7 @@ using namespace std;
 const int rows = 6;
 const int cols = 6;
 
+// Function to check if the given position is the exit point
 bool isExit(int col, int row, int exit[1][2]) {
     if (col == exit[0][0] && row == exit[0][1]) {
         return true;
@@ -15,6 +16,7 @@ bool isExit(int col, int row, int exit[1][2]) {
     return false;
 }
 
+// Function to check if the given position contains a health pack
 bool isHealth(int col, int row, int hpPositions[3][2], int numHp) {
     for (int i = 0; i < numHp; i++) {
         if (col == hpPositions[i][0] && row == hpPositions[i][1]) {
@@ -24,6 +26,7 @@ bool isHealth(int col, int row, int hpPositions[3][2], int numHp) {
     return false;
 }
 
+// Function to check if the given position contains a wall
 bool isWall(int col, int row, int wallPositions[12][2], int numWalls) {
     for (int i = 0; i < numWalls; i++) {
         if (col == wallPositions[i][0] && row == wallPositions[i][1]) {
@@ -32,7 +35,10 @@ bool isWall(int col, int row, int wallPositions[12][2], int numWalls) {
     }
     return false;
 }
+
+// Function to display the final map with the player's position, exit, health packs, and walls
 void displayFinalMap(int currentCol, int currentRow, int exit[1][2], int hpPositions[3][2], int wallPositions[12][2], int numHp, int numWalls) {
+    cout << "" << endl;
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             bool isPlayer = (i == currentRow && j == currentCol);
@@ -54,6 +60,8 @@ void displayFinalMap(int currentCol, int currentRow, int exit[1][2], int hpPosit
         cout << endl;
     }
 }
+
+// Function to update the player's location based on the direction
 void updateLocation(int direction, int &currentCol, int &currentRow) {
     switch (direction) {
         case 6:
@@ -77,6 +85,7 @@ void updateLocation(int direction, int &currentCol, int &currentRow) {
     }
 }
 
+// Function to return the player's location to the previous position
 void returnLocation(int direction, int &currentCol, int &currentRow) {
     switch (direction) {
         case 6:
@@ -100,7 +109,8 @@ void returnLocation(int direction, int &currentCol, int &currentRow) {
     }
 }
 
-void displayMap(const char rows,const char cols, int currentCol, int currentRow) {
+// Function to display the map with the player's position
+void displayMap(const char rows, const char cols, int currentCol, int currentRow) {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             if (i == currentRow && j == currentCol) {
@@ -109,10 +119,11 @@ void displayMap(const char rows,const char cols, int currentCol, int currentRow)
                 cout << ". ";
             }
         }
-        cout << endl;           
+        cout << endl;
     }
 }
 
+// Function to get the player's location as a string
 string getLocation(int currentCol, int currentRow) {
     return to_string(currentCol + 1) + "," + to_string(currentRow + 1);
 }
@@ -146,15 +157,15 @@ int main() {
     string currentLocation = getLocation(currentCol, currentRow);
     cout << endl;
     cout << "Current Location: " << currentLocation << endl;
-    displayMap(6,6, currentCol, currentRow);
+    displayMap(6, 6, currentCol, currentRow);
     while (playerhp > 0 && gameover == 0) {
         cout << "Health: " << playerhp << endl;
         cout << "Which direction do you want to go?";
         cin >> direction;
-        cout << endl; 
+        cout << endl;
         updateLocation(direction, currentCol, currentRow);
         string currentLocation = getLocation(currentCol, currentRow);
-     
+
         if (isWall(currentCol, currentRow, wallPositions, numWalls)) {
             playerhp = playerhp - 10;
             cout << "You bumped into a wall!";
@@ -162,8 +173,8 @@ int main() {
         }
         cout << endl;
         cout << "Current Location: " << currentLocation << endl;
-        displayMap(6,6, currentCol, currentRow);
-        if (isExit(currentCol, currentRow, exit)){
+        displayMap(6, 6, currentCol, currentRow);
+        if (isExit(currentCol, currentRow, exit)) {
             displayFinalMap(currentCol, currentRow, exit, hpPositions, wallPositions, numHp, numWalls);
             cout << "Congratulations you won! Press 0 to start again." << endl;
             cin >> a;
@@ -171,11 +182,11 @@ int main() {
                 main();
             gameover = 1;
         }
-            if (isHealth(currentCol, currentRow, hpPositions, numHp) && ishptaken == 0) {
-        cout << "50 hp recovered!" << endl;
-        playerhp = playerhp + 50;
-        ishptaken = 1;
-    }
+        if (isHealth(currentCol, currentRow, hpPositions, numHp) && ishptaken == 0) {
+            cout << "50 hp recovered!" << endl;
+            playerhp = playerhp + 50;
+            ishptaken = 1;
+        }
     }
 
     if (playerhp <= 0) {
